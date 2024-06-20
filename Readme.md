@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Энвер Белялов](https://up.htmlacademy.ru/javascript/32/user/963049).
-* Наставник: [Александр Сударев](https://htmlacademy.ru/profile/id1152185).
+* Наставник: ['Александр Сударев'](https://htmlacademy.ru/profile/id1152185).
 
 ---
 
