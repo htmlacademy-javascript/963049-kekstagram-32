@@ -34,19 +34,19 @@ getPalindrome('Д о в О д');
 //функция, извлекающая цифры из строки (не доработанная)
 
 const getNumber = (string) => {
-  let stringNew = '';
+  let newString = '';
 
-  for (let i = 0; i < string.length; i++) {
-    stringNew += parseInt(string[i], 10).toString();
-
-    if(Number.isNaN(string[i]) === Number.isNaN(NaN)) {
-      return NaN;
+  for(let i = 0; i < string.length; ++i) {
+    if(!isNaN(parseInt(string[i],10))) {
+      newString += string[i];
     }
-
-    return stringNew;
   }
 
-  return stringNew;
+  if(newString !== '') {
+    return parseInt(newString, 10);
+  }
+
+  return NaN;
 };
 
-getNumber('98 ghyt 70');
+getNumber('2023 год');
