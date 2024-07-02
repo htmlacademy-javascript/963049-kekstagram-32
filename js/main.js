@@ -3,7 +3,7 @@ const AMOUNT_PHOTOS_ID = {
   MAX: 25
 };
 
-const description = [
+const DESCRIPTIONS = [
   'Залив с песчанным пляжем',
   'Дорожный указатель к пляжу',
   'Камни у берега моря',
@@ -41,7 +41,7 @@ const AVATAR_NUMBER = {
   MAX: 6
 };
 
-const message = [
+const MESSAGES = [
   'Всё отлично!',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра.',
   'В целом всё неплохо.',
@@ -50,12 +50,12 @@ const message = [
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.'
 ];
 
-const name = ['Rachel', 'Monica', 'Phoebe', 'Joey', 'Chandler', 'Ross'];
+const NAMES = ['Rachel', 'Monica', 'Phoebe', 'Joey', 'Chandler', 'Ross'];
 
 //Функция для поиска случайного числа из заданного промежутка
-const getRandomInteger = (a, b) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
+const getRandomInteger = (min, max) => {
+  const lower = Math.ceil(Math.min(min, max));
+  const upper = Math.floor(Math.max(min, max));
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
 };
@@ -64,38 +64,40 @@ const getRandomInteger = (a, b) => {
 const getRandomArrayElement = (elements) =>
   elements[getRandomInteger(0, elements.length - 1)];
 
-//Функция для поиска случайного числа (id)
-let commentId = 0;
+//Функция c замыканием для поиска случайного числа (id)
 const getCommentId = () => {
-  commentId++;
-  return commentId;
+  let currentСommentId = 0;
+
+  return function () {
+    currentСommentId += 1;
+    return currentСommentId;
+  };
 };
+
+const generateCommentId = getCommentId();
 
 //Функция создания объекта с комментарием
 const createСomment = () => ({
-  id: getCommentId(),
+  id: generateCommentId(),
   avatar: `img/avatar-${getRandomInteger(
     AVATAR_NUMBER.MIN,
     AVATAR_NUMBER.MAX
   )}.svg`,
-  message: getRandomArrayElement(message),
-  name: getRandomArrayElement(name)
+  message: getRandomArrayElement(MESSAGES),
+  name: getRandomArrayElement(NAMES)
 });
-
-//console.log(createСomment());
 
 //Функция создания объекта с постом фотографии
 const createPost = () => ({
-  id: getRandomInteger(AMOUNT_PHOTOS_ID.MIN, AMOUNT_PHOTOS_ID.MAX),
+  id: generateCommentId(),
   url: `photos/${getRandomInteger(
     AMOUNT_PHOTOS_ID.MIN,
     AMOUNT_PHOTOS_ID.MAX
   )}.jpg`,
-  description: getRandomArrayElement(description),
+  description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomInteger(LIKES.MIN, LIKES.MAX),
-  comments: createСomment()
+  comments: Array.from({ length: 30 }, createСomment)
 });
 
 // eslint-disable-next-line no-unused-vars
 const manyPosts = Array.from({ length: 25 }, createPost);
-//console.log(manyPosts);
