@@ -60,6 +60,24 @@ const getRandomInteger = (min, max) => {
   return Math.floor(result);
 };
 
+//Функция-генератор для получения уникальных идентификаторов из указанного диапазона
+function createRandomIdFromRangeGenerator (min,max) {
+  const previousValues = [];
+
+  return function() {
+    let currentValue = getRandomInteger(min, max);
+    if (previousValues.length >= (max - min + 1)) {
+      return null;
+    }
+    while (previousValues.includes(currentValue)) {
+      currentValue = getRandomInteger(min, max);
+    }
+    previousValues.push(currentValue);
+    return currentValue;
+  };
+}
+const generateRandomIdComment = createRandomIdFromRangeGenerator(0,30);
+
 //Функция для поиска случайного элемента из переданного массива
 const getRandomArrayElement = (elements) =>
   elements[getRandomInteger(0, elements.length - 1)];
@@ -96,7 +114,7 @@ const createPost = () => ({
   )}.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomInteger(LIKES.MIN, LIKES.MAX),
-  comments: Array.from({ length: 30 }, createСomment)
+  comments: Array.from({ length: `${generateRandomIdComment()}` }, createСomment)
 });
 
 // eslint-disable-next-line no-unused-vars

@@ -19,7 +19,6 @@ function getPalindrome(string) {
 
   for (let i = stringNormal.length - 1; i >= 0 ; i--) {
     stringNew += stringNormal[i];
-    //stringNew += stringNormal.at(i);
   }
 
   if (stringNew === stringNormal) {
