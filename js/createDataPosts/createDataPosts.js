@@ -1,5 +1,5 @@
-import {AMOUNT_PHOTOS_ID, DESCRIPTIONS, LIKES, AVATAR_NUMBER, MESSAGES, NAMES} from './variables.js';
-import {getRandomInteger, generateRandomIdComment, getRandomArrayElement, generateCommentId} from './util.js';
+import {POSTS_NUMBER, AMOUNT_PHOTOS_ID, DESCRIPTIONS, LIKES, AVATAR_NUMBER, MESSAGES, NAMES} from './variablesPosts.js';
+import {getRandomInteger, generateRandomIdComment, getRandomArrayElement, generateCommentId} from '../util.js';
 
 //Функция создания объекта с комментарием
 const createСomment = () => ({
@@ -24,5 +24,5 @@ const createPost = () => ({
   comments: Array.from({ length: `${generateRandomIdComment()}` }, createСomment)
 });
 
-const createManyPosts = () => Array.from({ length: 25 }, createPost);
+const createManyPosts = () => Array.from({ length: POSTS_NUMBER }, createPost);
 export {createManyPosts};
