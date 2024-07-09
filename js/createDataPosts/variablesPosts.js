@@ -1,3 +1,5 @@
+const POSTS_NUMBER = 25;
+
 const AMOUNT_PHOTOS_ID = {
   MIN: 1,
   MAX: 25
@@ -52,4 +54,4 @@ const MESSAGES = [
 
 const NAMES = ['Rachel', 'Monica', 'Phoebe', 'Joey', 'Chandler', 'Ross'];
 
-export {AMOUNT_PHOTOS_ID, DESCRIPTIONS, LIKES, AVATAR_NUMBER, MESSAGES, NAMES};
+export {POSTS_NUMBER, AMOUNT_PHOTOS_ID, DESCRIPTIONS, LIKES, AVATAR_NUMBER, MESSAGES, NAMES};

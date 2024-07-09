@@ -1,6 +1,7 @@
-import './variables.js';
+import './createDataPosts/createDataPosts.js';
+import './createDataPosts/variablesPosts.js';
 import './util.js';
-import './data.js';
-import {createManyPosts} from './data.js';
+
+import {createManyPosts} from './createDataPosts/createDataPosts.js';
 
 createManyPosts();
