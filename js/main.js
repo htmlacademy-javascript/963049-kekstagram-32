@@ -1,7 +1,3 @@
-import './createDataPosts/createDataPosts.js';
-import './createDataPosts/variablesPosts.js';
-import './util.js';
+import {renderUserPosts} from './createUserPosts/createUserPosts.js';
 
-import {createManyPosts} from './createDataPosts/createDataPosts.js';
-
-createManyPosts();
+renderUserPosts(document.querySelector('.pictures'));

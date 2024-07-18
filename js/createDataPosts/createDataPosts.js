@@ -15,7 +15,7 @@ const createСomment = () => ({
 //Функция создания объекта с постом фотографии
 const createPost = () => ({
   id: generateCommentId(),
-  url: `photos/${getRandomInteger(
+  url: `/photos/${getRandomInteger(
     AMOUNT_PHOTOS_ID.MIN,
     AMOUNT_PHOTOS_ID.MAX
   )}.jpg`,
