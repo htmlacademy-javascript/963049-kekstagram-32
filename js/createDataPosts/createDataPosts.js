@@ -25,4 +25,4 @@ const createPost = () => ({
 });
 
 const createManyPosts = () => Array.from({ length: POSTS_NUMBER }, createPost);
-export {createManyPosts};
+export {createManyPosts, createСomment};
