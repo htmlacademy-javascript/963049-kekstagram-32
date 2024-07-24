@@ -1,3 +1,6 @@
-import {renderUserPosts} from './createUserPosts/createUserPosts.js';
+import {createUserPosts} from './createUserPosts/createUserPosts.js';
+//import {createManyPosts} from './createDataPosts/createDataPosts.js';
 
-renderUserPosts(document.querySelector('.pictures'));
+createUserPosts();
+
+import './openBigPost/openBigPost.js';

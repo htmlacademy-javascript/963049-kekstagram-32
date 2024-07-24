@@ -38,5 +38,8 @@ const getCommentId = () => {
   };
 };
 
+//Функция для закрытия окна через кнопку 'Escape'
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
 const generateCommentId = getCommentId();
-export{getRandomInteger, generateRandomIdComment, getRandomArrayElement, generateCommentId};
+export{getRandomInteger, generateRandomIdComment, getRandomArrayElement, generateCommentId, isEscapeKey};
