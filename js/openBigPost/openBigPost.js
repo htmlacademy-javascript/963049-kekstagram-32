@@ -95,9 +95,11 @@ const renderBigPicture = ({url, description, likes, comments}) => {
 const openBigPicture = (data) => {
   renderBigPicture(data);
   commentsData = data.comments;
+
   if(commentsData.length > 0) {
     renderComments();
   }
+
   showBigPicture();
   registerCloseEvents();
 };
