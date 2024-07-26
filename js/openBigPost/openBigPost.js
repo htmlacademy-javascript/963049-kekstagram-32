@@ -9,16 +9,15 @@ const body = document.querySelector('body');
 const socialCommentList = bigPicture.querySelector('.social__comments');
 const socialCommentItem = socialCommentList.querySelector('.social__comment');
 const socialItemCommentCount = bigPicture.querySelector('.social__comment-count');
-const socialCommentLoader = bigPicture.querySelector('.comments-loader');
+const socialCommentsLoader = bigPicture.querySelector('.comments-loader');
 const socialCommenTotalCount = bigPicture.querySelector('.social__comment-total-count');
-//const socialCommenShownCount = document.querySelector('.social__comment-shown-count');
+const socialCommenShownCount = bigPicture.querySelector('.social__comment-shown-count');
 
 const SOCIAL_PICTURE_WIDTH = 35;
 const SOCIAL_PICTURE_HEIGHT = 35;
 
 let commentsData = [];
-let commentsStartIndex = 0;
-let commentsShownCount = 0;
+let commentsShown = 0;
 const SHOWN_COMMENTS = 5;
 
 const getComment = ({avatar, name, message}) => {
@@ -31,28 +30,37 @@ const getComment = ({avatar, name, message}) => {
   return socialCommentElement;
 };
 
-const addComments = (comments) => {
+const hideCommentsControls = () => {
+  if(commentsShown >= commentsData.length) {
+    socialCommentsLoader.classList.add('hidden');
+    commentsShown = commentsData.length;
+  } else {
+    socialCommentsLoader.classList.remove('hidden');
+  }
+};
+
+const setCommentsTextCount = () => {
+  socialCommenShownCount.textContent = commentsShown;
+  socialCommenTotalCount.textContent = commentsData.length;
+};
+
+const renderComments = () => {
+  commentsShown += SHOWN_COMMENTS;
+  hideCommentsControls();
+
   const commentFragment = document.createDocumentFragment();
-  comments.forEach((comment) => {
-    commentFragment.append(getComment(comment));
-  });
-
-  commentsShownCount += comments.length;
-  socialCommenTotalCount.textContent = commentsShownCount;
-  socialItemCommentCount.textContent = `${commentsShownCount} из ${commentsData.length} комментариев`;
-
-  if(commentsShownCount >= commentsData.length) {
-    socialCommentLoader.classList.add('hidden');
+  for (let i = 0; i < commentsShown; i++) {
+    const comment = getComment(commentsData[i]);
+    commentFragment.append(comment);
   }
 
+  socialCommentList.innerHTML = '';
   socialCommentList.append(commentFragment);
+  setCommentsTextCount();
 };
 
-const showComments = () => {
-  const comments = commentsData.slice(commentsStartIndex, commentsStartIndex + SHOWN_COMMENTS);
-  commentsStartIndex += SHOWN_COMMENTS;
-  addComments(comments);
-};
+const onCommentsLoaderClick = () => renderComments();
+socialCommentsLoader.addEventListener('click', onCommentsLoaderClick);
 
 //Открытие поста на весь экран
 
@@ -64,6 +72,7 @@ const showBigPicture = () => {
 const hideBigPicture = () => {
   body.classList.remove('modal-open');
   bigPicture.classList.add('hidden');
+  commentsShown = 0;
 };
 
 const handlerEscape = (e) => {
@@ -82,24 +91,27 @@ const registerCloseEvents = () => {
   bigPictureCancel.addEventListener('click', closeBigPicture);
 };
 
-const renderComments = (comments) => {
-  commentsData = comments;
-  socialCommentList.innerHTML = '';
-
-  socialCommentLoader.addEventListener('click', showComments);
-};
-
-const renderBigPicture = ({url, description, likes, comments}) => {
+const renderBigPicture = ({url, description, likes}) => {
   bigPicture.querySelector('.big-picture__img img').src = url;
   bigPicture.querySelector('.big-picture__img img').alt = description;
   bigPicture.querySelector('.social__caption').textContent = description;
   bigPicture.querySelector('.likes-count').textContent = likes;
-  renderComments(comments);
 };
 
 const openBigPicture = (data) => {
   renderBigPicture(data);
-  showComments();
+  commentsData = data.comments;
+
+  if(commentsData.length > 0) {
+    renderComments();
+    socialItemCommentCount.classList.remove('hidden');
+    socialCommentList.classList.remove('hidden');
+  } else {
+    hideCommentsControls();
+    socialItemCommentCount.classList.add('hidden');
+    socialCommentList.classList.add('hidden');
+  }
+
   showBigPicture();
   registerCloseEvents();
 };

@@ -1,6 +1,4 @@
 import {createUserPosts} from './createUserPosts/createUserPosts.js';
-//import {createManyPosts} from './createDataPosts/createDataPosts.js';
+//import './openBigPost/openBigPost.js';
 
 createUserPosts();
-
-import './openBigPost/openBigPost.js';
