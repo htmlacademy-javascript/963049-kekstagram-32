@@ -40,9 +40,6 @@ const hasUniqueTags = (value) => {
 
 //Условия для ввода данных в поле с комментарием
 
-//комментарий не обязателен
-//const descriptionFieldNotRequired = (value) => descriptionField.value !== value;
-
 //длина комментария не может составлять больше 140 символов;
 const descriptionFieldCount = getRandomArrayElement(descriptionField.value, MAX_AMOUNT_TEXT_DESCRIPTION);
 
