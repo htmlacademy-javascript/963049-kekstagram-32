@@ -1,5 +1,3 @@
-import {getRandomArrayElement} from './util.js';
-
 const body = document.querySelector('body');
 const postForm = document.querySelector('.img-upload__form');
 
@@ -17,7 +15,7 @@ const errorText = {
   INVALID_COUNT: `Максимум ${MAX_HASHTAG_COUNT} хэштэгов`,
   INVALID_PATTERN: 'Неправильный хэштэг',
   NOT_UNIQUE: 'Хэштэг не уникальный',
-  INVALID_COMMENT: 'длина комментария не может составлять больше 140 символов'
+  INVALID_COMMENT: `Длина комментария не может составлять больше ${MAX_AMOUNT_TEXT_DESCRIPTION} символов`
 };
 
 const pristine = new Pristine(postForm, {
@@ -41,7 +39,7 @@ const hasUniqueTags = (value) => {
 //Условия для ввода данных в поле с комментарием
 
 //длина комментария не может составлять больше 140 символов;
-const descriptionFieldCount = getRandomArrayElement(descriptionField.value, MAX_AMOUNT_TEXT_DESCRIPTION);
+const descriptionFieldCount = descriptionField.value <= MAX_AMOUNT_TEXT_DESCRIPTION;
 
 //Валидация поля ввода с комментарием
 pristine.addValidator(
