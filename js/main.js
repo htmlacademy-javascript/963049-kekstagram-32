@@ -1,4 +1,5 @@
 import {createUserPosts} from './createUserPosts/createUserPosts.js';
-//import './openBigPost/openBigPost.js';
+import './form.js';
+
 
 createUserPosts();
