@@ -1,3 +1,7 @@
+import { buttonScaleSmaller, onScaleClickSmaller, buttonScaleBigger, onScaleClickBigger } from './scale.js';
+import {resetScale} from './scale.js';
+import {initEffectPicture, resetEffects} from './effects.js';
+
 const body = document.querySelector('body');
 const postForm = document.querySelector('.img-upload__form');
 
@@ -85,12 +89,17 @@ const onFormSubmit = (evt) => {
 const showPostForm = () => {
   overlay.classList.remove('hidden');
   body.classList.add('modal-open');
+  buttonScaleSmaller.addEventListener('click', onScaleClickSmaller);
+  buttonScaleBigger.addEventListener('click', onScaleClickBigger);
+  initEffectPicture();
   document.addEventListener('keydown', onPostFormKeyDown);
 };
 
 //Скрыть модальное окно с формой поста изображения
 const hidePostForm = () => {
   postForm.reset();
+  resetScale();
+  resetEffects();
   pristine.reset();
   overlay.classList.add('hidden');
   body.classList.remove('modal-open');
@@ -124,7 +133,10 @@ descriptionField.addEventListener('keydown', (evt) => {
   evt.stopPropagation();
 });
 
-//Обработчики
-fileField.addEventListener('change', onFileInputChange); //Обработчик загрузки изображения
-postForm.addEventListener('submit', onFormSubmit); //Обработчик отправки формы
-buttonCloseForm.addEventListener('click', onCancelButtonClick); //Обработчик закрытия окна формы редактирования изображения
+//Обработчики:
+//Обработчик загрузки изображения
+fileField.addEventListener('change', onFileInputChange);
+//Обработчик отправки формы
+postForm.addEventListener('submit', onFormSubmit);
+//Обработчик закрытия окна формы редактирования изображения
+buttonCloseForm.addEventListener('click', onCancelButtonClick);
