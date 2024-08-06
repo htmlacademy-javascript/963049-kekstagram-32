@@ -1,4 +1,4 @@
-const Effect = {
+const Effects = {
   DEFAULT: 'none',
   CHROME: 'chrome',
   SEPIA: 'sepia',
@@ -8,55 +8,55 @@ const Effect = {
 };
 
 const effectToFilter = {
-  [Effect.CHROME]: {
+  [Effects.CHROME]: {
     style: 'grayscale',
     unit: '',
   },
-  [Effect.SEPIA]: {
+  [Effects.SEPIA]: {
     style: 'sepia',
     unit: '',
   },
-  [Effect.MARVIN]: {
+  [Effects.MARVIN]: {
     style: 'invert',
     unit: '%',
   },
-  [Effect.PHOBOS]: {
+  [Effects.PHOBOS]: {
     style: 'blur',
     unit: 'px',
   },
-  [Effect.HEAT]: {
+  [Effects.HEAT]: {
     style: 'brightness',
     unit: '',
   },
 };
 
 const effectToSliderOptions = {
-  [Effect.DEFAULT]: {
+  [Effects.DEFAULT]: {
     min: 0,
     max: 100,
     step: 1,
   },
-  [Effect.CHROME]: {
+  [Effects.CHROME]: {
     min: 0,
     max: 1,
     step: 0.1,
   },
-  [Effect.SEPIA]: {
+  [Effects.SEPIA]: {
     min: 0,
     max: 1,
     step: 0.1,
   },
-  [Effect.MARVIN]: {
+  [Effects.MARVIN]: {
     min: 0,
     max: 100,
     step: 1,
   },
-  [Effect.PHOBOS]: {
+  [Effects.PHOBOS]: {
     min: 0,
     max: 3,
     step: 0.1,
   },
-  [Effect.HEAT]: {
+  [Effects.HEAT]: {
     min: 0,
     max: 3,
     step: 0.1,
@@ -66,14 +66,14 @@ const effectToSliderOptions = {
 const postModalElement = document.querySelector('.img-upload');
 const picturePpreviewElement = postModalElement.querySelector('.img-upload__preview img');
 const effectsElement = postModalElement.querySelector('.effects');
-const sliderElement = document.querySelector('.effect-level__slider');//Класс инициализации слайдера
-const sliderContainerElement = document.querySelector('.img-upload__effect-level');
-const effectLevelElement = document.querySelector('.effect-level__value');
+const sliderElement = postModalElement.querySelector('.effect-level__slider');//Класс инициализации слайдера
+const sliderContainerElement = postModalElement.querySelector('.img-upload__effect-level');
+const effectLevelElement = postModalElement.querySelector('.effect-level__value');
 
 //Выбранный эффект по умолчанию
-let selectedEffect = Effect.DEFAULT;
+let selectedEffect = Effects.DEFAULT;
 
-const isDefault = () => selectedEffect === Effect.DEFAULT;
+const isDefault = () => selectedEffect === Effects.DEFAULT;
 
 //Функция для применения специальных эффектов для изображения
 const setImageStyle = () => {
@@ -152,7 +152,7 @@ const onEffectsChange = (evt) => {
 
 //Сброс эффектов
 const resetEffects = () => {
-  setEffect(Effect.DEFAULT);
+  setEffect(Effects.DEFAULT);
 };
 
 //Инициализация настроек слайдера
