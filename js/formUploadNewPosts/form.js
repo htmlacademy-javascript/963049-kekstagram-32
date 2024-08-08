@@ -1,6 +1,7 @@
 import { buttonScaleSmaller, onScaleClickSmaller, buttonScaleBigger, onScaleClickBigger } from './scale.js';
 import {resetScale} from './scale.js';
 import {initEffectPicture, resetEffects} from './effects.js';
+//import {sendData} from '../interactionWithServer/api.js';
 
 const body = document.querySelector('body');
 const postForm = document.querySelector('.img-upload__form');
@@ -10,6 +11,7 @@ const overlay = postForm.querySelector('.img-upload__overlay');
 const buttonCloseForm = postForm.querySelector('.img-upload__cancel');
 const hashtagField = postForm.querySelector('.text__hashtags');
 const descriptionField = postForm.querySelector('.text__description');
+const submitButton = postForm.querySelector('.img-upload__submit');
 
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAX_HASHTAG_COUNT = 5;
@@ -28,6 +30,11 @@ const pristine = new Pristine(postForm, {
   errorTextClass: 'img-upload__field-wrapper--error',
 });
 
+const SubmitButtonText = {
+  IDLE: 'Опубликовать',
+  SUBMITTING: 'Отправляю...',
+};
+
 //Условия для ввода данных в поле с хэштэгом
 const normalizeTags = (tagString) => tagString.trim().split(' ').filter((tag) => Boolean(tag.length));
 
@@ -44,6 +51,59 @@ const hasUniqueTags = (value) => {
 
 //длина комментария не может составлять больше 140 символов;
 const descriptionFieldCount = descriptionField.value <= MAX_AMOUNT_TEXT_DESCRIPTION;
+
+//Кнопка для отправки данных на сервер
+const toggleSubmitButton = (isDisabled) => {
+  submitButton.disabled = isDisabled;
+  submitButton.textContent = isDisabled ? SubmitButtonText.SUBMITTING : SubmitButtonText.IDLE;
+};
+
+//Функция для отправки формы
+
+// const onFormSubmit = (evt) => {
+//   evt.preventDefault();
+//   pristine.validate();
+// };
+const setPostsFormSubmit = (callback) => {
+  postForm.addEventListener('submit', async(evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+
+    if(isValid) {
+      toggleSubmitButton(true);
+      await callback(new FormData(postForm));
+      toggleSubmitButton();
+    }
+  });
+};
+
+// const setPostsFormSubmit = (onSuccess) => {
+//   postForm.addEventListener('submit', (evt) => {
+//     evt.preventDefault();
+
+//     const isValid = pristine.validate();
+//     if(isValid) {
+//       sendData(new FormData(evt.target)).then(onSuccess)
+//         .catch((err) => {
+//           showAlert(err.message);
+//         });
+
+//       const formData = new FormData(evt.target);
+
+//       fetch(
+//         'https://32.javascript.htmlacademy.pro/kekstagram',
+//         {
+//           method: 'POST',
+//           body: formData,
+//         },
+//       ).then(onSuccess)
+//         .catch((err) => {
+//           console.error(err);
+//         });
+//     }
+//   });
+// };
+
 
 //Валидация поля ввода с комментарием
 pristine.addValidator(
@@ -80,11 +140,6 @@ pristine.addValidator(
   true
 );
 
-const onFormSubmit = (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-};
-
 //Показать модальное окно с формой поста изображения
 const showPostForm = () => {
   overlay.classList.remove('hidden');
@@ -106,6 +161,7 @@ const hidePostForm = () => {
   document.removeEventListener('keydown', onPostFormKeyDown);
 };
 
+
 //Функция закрытия модального окна по клику мыши
 const onCancelButtonClick = () => {
   hidePostForm();
@@ -116,9 +172,11 @@ const onFileInputChange = () => {
   showPostForm();
 };
 
+const isErrorMessageShown = () => Boolean(document.querySelector('.error'));
+
 //Функция закрытия модального окна по клавише Escape
 function onPostFormKeyDown(e) {
-  if(e.key === 'Escape') {
+  if(e.key === 'Escape' && !isErrorMessageShown()) {
     e.preventDefault();
     hidePostForm();
   }
@@ -137,6 +195,8 @@ descriptionField.addEventListener('keydown', (evt) => {
 //Обработчик загрузки изображения
 fileField.addEventListener('change', onFileInputChange);
 //Обработчик отправки формы
-postForm.addEventListener('submit', onFormSubmit);
+//postForm.addEventListener('submit', onFormSubmit);
 //Обработчик закрытия окна формы редактирования изображения
 buttonCloseForm.addEventListener('click', onCancelButtonClick);
+
+export {setPostsFormSubmit, hidePostForm};

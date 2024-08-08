@@ -1,11 +1,11 @@
-import {createManyPosts} from '../createDataPosts/createDataPosts.js';
+//import {createManyPosts} from '../createDataPosts/createDataPosts.js';
 import {openBigPicture} from '../openBigPost/openBigPost.js';
 
-const createUserPosts = () => {
+const createUserPosts = (receivedUserPosts) => {
   const userPostsList = document.querySelector('.pictures');
   const userPostTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-  const receivedUserPosts = createManyPosts();
+  //const receivedUserPosts = createManyPosts();
 
   const postsFragment = document.createDocumentFragment();
 
