@@ -161,4 +161,4 @@ const initEffectPicture = () => {
   effectsElement.addEventListener('change', onEffectsChange);
 };
 
-export { initEffectPicture, resetEffects };
+export { initEffectPicture, resetEffects, sliderElement };
