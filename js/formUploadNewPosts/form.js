@@ -1,7 +1,6 @@
 import { buttonScaleSmaller, onScaleClickSmaller, buttonScaleBigger, onScaleClickBigger } from './scale.js';
 import {resetScale} from './scale.js';
-import {initEffectPicture, resetEffects} from './effects.js';
-//import {sendData} from '../interactionWithServer/api.js';
+import {initEffectPicture, resetEffects, sliderElement} from './effects.js';
 
 const body = document.querySelector('body');
 const postForm = document.querySelector('.img-upload__form');
@@ -50,7 +49,7 @@ const hasUniqueTags = (value) => {
 //Условия для ввода данных в поле с комментарием
 
 //длина комментария не может составлять больше 140 символов;
-const descriptionFieldCount = descriptionField.value <= MAX_AMOUNT_TEXT_DESCRIPTION;
+const descriptionFieldCount = () => descriptionField.value.length <= MAX_AMOUNT_TEXT_DESCRIPTION;
 
 //Кнопка для отправки данных на сервер
 const toggleSubmitButton = (isDisabled) => {
@@ -60,10 +59,6 @@ const toggleSubmitButton = (isDisabled) => {
 
 //Функция для отправки формы
 
-// const onFormSubmit = (evt) => {
-//   evt.preventDefault();
-//   pristine.validate();
-// };
 const setPostsFormSubmit = (callback) => {
   postForm.addEventListener('submit', async(evt) => {
     evt.preventDefault();
@@ -72,42 +67,14 @@ const setPostsFormSubmit = (callback) => {
     if(isValid) {
       toggleSubmitButton(true);
       await callback(new FormData(postForm));
-      toggleSubmitButton();
+      toggleSubmitButton(false);
     }
   });
 };
 
-// const setPostsFormSubmit = (onSuccess) => {
-//   postForm.addEventListener('submit', (evt) => {
-//     evt.preventDefault();
-
-//     const isValid = pristine.validate();
-//     if(isValid) {
-//       sendData(new FormData(evt.target)).then(onSuccess)
-//         .catch((err) => {
-//           showAlert(err.message);
-//         });
-
-//       const formData = new FormData(evt.target);
-
-//       fetch(
-//         'https://32.javascript.htmlacademy.pro/kekstagram',
-//         {
-//           method: 'POST',
-//           body: formData,
-//         },
-//       ).then(onSuccess)
-//         .catch((err) => {
-//           console.error(err);
-//         });
-//     }
-//   });
-// };
-
-
 //Валидация поля ввода с комментарием
 pristine.addValidator(
-  hashtagField,
+  descriptionField,
   descriptionFieldCount,
   errorText.INVALID_COMMENT,
   4,
@@ -159,6 +126,7 @@ const hidePostForm = () => {
   overlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onPostFormKeyDown);
+  sliderElement.noUiSlider.destroy();
 };
 
 
@@ -172,7 +140,11 @@ const onFileInputChange = () => {
   showPostForm();
 };
 
-const isErrorMessageShown = () => Boolean(document.querySelector('.error'));
+const isErrorMessageShown = () => {
+  const error = document.querySelector('.error');
+  return Boolean(error);
+};
+//Boolean(document.querySelector('.error'));
 
 //Функция закрытия модального окна по клавише Escape
 function onPostFormKeyDown(e) {
@@ -194,8 +166,6 @@ descriptionField.addEventListener('keydown', (evt) => {
 //Обработчики:
 //Обработчик загрузки изображения
 fileField.addEventListener('change', onFileInputChange);
-//Обработчик отправки формы
-//postForm.addEventListener('submit', onFormSubmit);
 //Обработчик закрытия окна формы редактирования изображения
 buttonCloseForm.addEventListener('click', onCancelButtonClick);
 

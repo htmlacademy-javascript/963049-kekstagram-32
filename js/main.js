@@ -4,15 +4,7 @@ import { setPostsFormSubmit, hidePostForm } from './formUploadNewPosts/form.js';
 import { getData, sendData } from './interactionWithServer/api.js';
 import { showSuccessMessage, showErrorMessage } from './interactionWithServer/loadingMessages.js';
 
-//import {createUserPosts} from '../createUserPosts/createUserPosts.js';
-//createUserPosts();
-
-// fetch('https://32.javascript.htmlacademy.pro/kekstagram/data')
-//   .then((response) => response.json())
-// getData()
-//   .then((newUserPosts) => {
-//     createUserPosts(newUserPosts);
-//   });
+//Обработка данных формы и их отправка на сервер
 setPostsFormSubmit(async(data) => {
   try {
     await sendData(data);
@@ -23,6 +15,7 @@ setPostsFormSubmit(async(data) => {
   }
 });
 
+//Получение данных с сервера и их генерация
 try {
   const data = await getData();
   createUserPosts(data);
