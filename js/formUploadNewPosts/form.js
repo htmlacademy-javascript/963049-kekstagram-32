@@ -11,10 +11,13 @@ const buttonCloseForm = postForm.querySelector('.img-upload__cancel');
 const hashtagField = postForm.querySelector('.text__hashtags');
 const descriptionField = postForm.querySelector('.text__description');
 const submitButton = postForm.querySelector('.img-upload__submit');
+const previewPicture = postForm.querySelector('.img-upload__preview img');
+const effectsPicture = postForm.querySelectorAll('.effects__preview');
 
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAX_HASHTAG_COUNT = 5;
 const MAX_AMOUNT_TEXT_DESCRIPTION = 140;
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 const errorText = {
   INVALID_COUNT: `Максимум ${MAX_HASHTAG_COUNT} хэштэгов`,
@@ -32,6 +35,12 @@ const pristine = new Pristine(postForm, {
 const SubmitButtonText = {
   IDLE: 'Опубликовать',
   SUBMITTING: 'Отправляю...',
+};
+
+//Условия для загрузки файла изображения
+const isValidType = (file) => {
+  const fileName = file.name.toLowerCase();
+  return FILE_TYPES.some((it) => fileName.endsWith(it));
 };
 
 //Условия для ввода данных в поле с хэштэгом
@@ -58,7 +67,6 @@ const toggleSubmitButton = (isDisabled) => {
 };
 
 //Функция для отправки формы
-
 const setPostsFormSubmit = (callback) => {
   postForm.addEventListener('submit', async(evt) => {
     evt.preventDefault();
@@ -137,14 +145,23 @@ const onCancelButtonClick = () => {
 
 //Функция для выбора изображения в форме
 const onFileInputChange = () => {
+  const file = fileField.files[0];
+
+  if (file && isValidType(file)) {
+    previewPicture.src = URL.createObjectURL(file);
+    effectsPicture.forEach((preview) => {
+      preview.style.backgroundImage = `url('${previewPicture}')`;
+    });
+  }
+
   showPostForm();
 };
 
+//Функция вызова об ошибке
 const isErrorMessageShown = () => {
   const error = document.querySelector('.error');
   return Boolean(error);
 };
-//Boolean(document.querySelector('.error'));
 
 //Функция закрытия модального окна по клавише Escape
 function onPostFormKeyDown(e) {

@@ -1,3 +1,28 @@
+//Функция debounce для устранения дребезга:
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
+//Функция throttle для пропуска кадров:
+function throttle (callback, delayBetweenFrames) {
+  let lastTime = 0;
+
+  return (...rest) => {
+    const now = new Date();
+
+    if (now - lastTime >= delayBetweenFrames) {
+      callback.apply(this, rest);
+      lastTime = now;
+    }
+  };
+}
+
 //Функция показа ошибки при отправке формы
 const ALERT_SHOW_TIME = 5000;
 const dataErrorTemplate = document.querySelector('#data-error').content.querySelector('.data-error');
@@ -56,4 +81,4 @@ const getCommentId = () => {
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const generateCommentId = getCommentId();
-export{ showAlert, getRandomInteger, generateRandomIdComment, getRandomArrayElement, generateCommentId, isEscapeKey };
+export{ debounce, throttle, showAlert, getRandomInteger, generateRandomIdComment, getRandomArrayElement, generateCommentId, isEscapeKey };
