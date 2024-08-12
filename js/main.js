@@ -1,4 +1,3 @@
-//import { createUserPosts } from './createUserPosts/createUserPosts.js';
 import { renderGalleryPosts } from './createUserPosts/createUserPosts.js';
 import { showAlert, debounce } from './util.js';
 import { setPostsFormSubmit, hidePostForm } from './formUploadNewPosts/form.js';
@@ -23,9 +22,6 @@ try {
   const debounceRenderPosts = debounce(renderGalleryPosts);
   initFilters(data, debounceRenderPosts);
   renderGalleryPosts(getFilteredPosts());
-  // renderGalleryPosts(data);
-  //createUserPosts(getFilteredPosts);
-  //createUserPosts(data);
 } catch {
   showAlert();
 }

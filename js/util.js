@@ -1,5 +1,20 @@
+const ALERT_SHOW_TIME = 5000;
+
+//Функция показа ошибки при отправке формы
+const dataErrorTemplate = document.querySelector('#data-error').content.querySelector('.data-error');
+
+const showAlert = () => {
+  const dataErrorElement = dataErrorTemplate.cloneNode(true);
+  document.body.append(dataErrorElement);
+
+  setTimeout(() => {
+    dataErrorElement.remove();
+  }, ALERT_SHOW_TIME);
+};
+
 //Функция debounce для устранения дребезга:
-function debounce (callback, timeoutDelay = 500) {
+function debounce (callback, timeoutDelay) {
+  timeoutDelay = 500;
   let timeoutId;
 
   return (...rest) => {
@@ -22,20 +37,6 @@ function throttle (callback, delayBetweenFrames) {
     }
   };
 }
-
-//Функция показа ошибки при отправке формы
-const ALERT_SHOW_TIME = 5000;
-const dataErrorTemplate = document.querySelector('#data-error').content.querySelector('.data-error');
-
-const showAlert = () => {
-  const dataErrorElement = dataErrorTemplate.cloneNode(true);
-  document.body.append(dataErrorElement);
-
-  setTimeout(() => {
-    dataErrorElement.remove();
-  }, ALERT_SHOW_TIME);
-};
-
 
 //Функция для поиска случайного числа из заданного промежутка
 const getRandomInteger = (min, max) => {

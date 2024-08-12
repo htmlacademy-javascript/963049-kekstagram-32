@@ -137,20 +137,20 @@ const hidePostForm = () => {
   sliderElement.noUiSlider.destroy();
 };
 
-
 //Функция закрытия модального окна по клику мыши
 const onCancelButtonClick = () => {
   hidePostForm();
 };
 
-//Функция для выбора изображения в форме
+//Функция для выбора и загрузки  изображения в форму
 const onFileInputChange = () => {
   const file = fileField.files[0];
 
   if (file && isValidType(file)) {
-    previewPicture.src = URL.createObjectURL(file);
+    const url = URL.createObjectURL(file);
+    previewPicture.src = url;
     effectsPicture.forEach((preview) => {
-      preview.style.backgroundImage = `url('${previewPicture}')`;
+      preview.style.backgroundImage = `url('${url}')`;
     });
   }
 

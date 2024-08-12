@@ -3,6 +3,8 @@ import {openBigPicture} from '../openBigPost/openBigPost.js';
 const userPostsContainer = document.querySelector('.pictures');
 const userPostTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
+let loadedManyPosts = [];
+
 //Создание поста с картинкой на основе по полученным параметрам
 const createUserPost = ({id, url, description, likes, comments}) => {
   const userPost = userPostTemplate.cloneNode(true);
@@ -28,7 +30,6 @@ const renderUserPosts = (receivedUserPost, userPostsList) => {
 };
 
 //Открытие соответсвующего поста с изображением из полученной галереи постов
-let loadedManyPosts = [];
 
 const onGalleryPostsClick = (event) => {
   if(event.target.closest('.picture')) {

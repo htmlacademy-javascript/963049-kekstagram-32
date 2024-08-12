@@ -9,10 +9,13 @@ const filterElement = document.querySelector('.img-filters');
 let currentFilter = Filter.DEFAULT;
 let manyPosts = [];
 
+//Функция получения случайного числа
 const sortRandomly = () => Math.random() - 0.5;
 
+//Функция сортировки в порядке убывания
 const sortByComments = (userPostA, userPostB) => userPostB.comments.length - userPostA.comments.length;
 
+//Функция получения трех типов фильтра
 const getFilteredPosts = () => {
   switch (currentFilter) {
     case Filter.RANDOM:
@@ -24,6 +27,7 @@ const getFilteredPosts = () => {
   }
 };
 
+//Кнопки переключения между фильтрами
 const toggleActiveFilterButton = (clickedButton) => {
   const activeButton = filterElement.querySelector('.img-filters__button--active');
   if(activeButton) {
@@ -43,14 +47,13 @@ const setOnFilterClick = (callback) => {
       return;
     }
 
-    // filterElement.querySelector('.img-filters__button--active').classList.remove('img-filters__button--active');
-    // clickedButton.classList.add('img-filters__button--active');
     toggleActiveFilterButton(clickedButton);
     currentFilter = clickedButton.id;
     callback(getFilteredPosts());
   });
 };
 
+//Функция инициализации фильтров
 const initFilters = (loadedPosts, callBack) => {
   filterElement.classList.remove('img-filters--inactive');
   manyPosts = [...loadedPosts];
