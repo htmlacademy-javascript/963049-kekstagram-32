@@ -58,7 +58,9 @@ const hasUniqueTags = (value) => {
 //Условия для ввода данных в поле с комментарием
 
 //длина комментария не может составлять больше 140 символов;
+
 const descriptionFieldCount = () => descriptionField.value.length <= MAX_AMOUNT_TEXT_DESCRIPTION;
+
 
 //Кнопка для отправки данных на сервер
 const toggleSubmitButton = (isDisabled) => {
