@@ -1,5 +1,12 @@
 import {isEscapeKey} from '../util.js';
 
+const SOCIAL_PICTURE_WIDTH = 35;
+const SOCIAL_PICTURE_HEIGHT = 35;
+
+const SHOWN_COMMENTS = 5;
+let commentsShown = 0;
+let commentsData = [];
+
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureCancel = document.querySelector('.big-picture__cancel');
 const body = document.querySelector('body');
@@ -12,13 +19,6 @@ const socialItemCommentCount = bigPicture.querySelector('.social__comment-count'
 const socialCommentsLoader = bigPicture.querySelector('.comments-loader');
 const socialCommenTotalCount = bigPicture.querySelector('.social__comment-total-count');
 const socialCommenShownCount = bigPicture.querySelector('.social__comment-shown-count');
-
-const SOCIAL_PICTURE_WIDTH = 35;
-const SOCIAL_PICTURE_HEIGHT = 35;
-
-let commentsData = [];
-let commentsShown = 0;
-const SHOWN_COMMENTS = 5;
 
 const getComment = ({avatar, name, message}) => {
   const socialCommentElement = socialCommentItem.cloneNode(true);
@@ -75,20 +75,20 @@ const hideBigPicture = () => {
   commentsShown = 0;
 };
 
-const handlerEscape = (e) => {
-  if(isEscapeKey(e)) {
-    closeBigPicture();
+const onEscapePress = (evt) => {
+  if(isEscapeKey(evt)) {
+    onBigPictureClose();
   }
 };
 
 const removeEvents = () => {
-  document.removeEventListener('keydown', handlerEscape);
-  bigPictureCancel.removeEventListener('click', closeBigPicture);
+  document.removeEventListener('keydown',onEscapePress);
+  bigPictureCancel.removeEventListener('click', onBigPictureClose);
 };
 
 const registerCloseEvents = () => {
-  document.addEventListener('keydown', handlerEscape);
-  bigPictureCancel.addEventListener('click', closeBigPicture);
+  document.addEventListener('keydown', onEscapePress);
+  bigPictureCancel.addEventListener('click', onBigPictureClose);
 };
 
 const renderBigPicture = ({url, description, likes}) => {
@@ -116,7 +116,7 @@ const openBigPicture = (data) => {
   registerCloseEvents();
 };
 
-function closeBigPicture() {
+function onBigPictureClose() {
   removeEvents();
   hideBigPicture();
 }

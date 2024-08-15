@@ -7,7 +7,7 @@ const Effects = {
   HEAT: 'heat',
 };
 
-const effectToFilter = {
+const EffectToFilter = {
   [Effects.CHROME]: {
     style: 'grayscale',
     unit: '',
@@ -30,7 +30,7 @@ const effectToFilter = {
   },
 };
 
-const effectToSliderOptions = {
+const EffectToSliderOptions = {
   [Effects.DEFAULT]: {
     min: 0,
     max: 100,
@@ -83,7 +83,7 @@ const setImageStyle = () => {
   }
 
   const { value } = effectLevelElement;
-  const { style, unit } = effectToFilter[selectedEffect];
+  const { style, unit } = EffectToFilter[selectedEffect];
   picturePpreviewElement.style.filter = `${style}(${value}${unit})`;
 };
 
@@ -134,7 +134,7 @@ const setSlider = () => {
   if(isDefault()) {
     hideSlider();
   } else {
-    updateSlider(effectToSliderOptions[selectedEffect]);
+    updateSlider(EffectToSliderOptions[selectedEffect]);
     showSlider();
   }
 };
@@ -157,7 +157,7 @@ const resetEffects = () => {
 
 //Инициализация настроек слайдера
 const initEffectPicture = () => {
-  createSlider(effectToSliderOptions[selectedEffect]);
+  createSlider(EffectToSliderOptions[selectedEffect]);
   effectsElement.addEventListener('change', onEffectsChange);
 };
 
