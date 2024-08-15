@@ -3,7 +3,7 @@ const errorMessage = document.querySelector('#error').content.querySelector('.er
 const body = document.querySelector('body');
 
 //Функция скрытия сообщения
-function hideMessage() {
+function onMessageHide() {
   const messageElement = document.querySelector('.success') || document.querySelector('.error');
   messageElement.remove();
   document.removeEventListener('keydown', onDocumentKeydown);
@@ -16,17 +16,17 @@ function onBodyClick(evt) {
     return;
   }
 
-  hideMessage();
+  onMessageHide();
 }
 
 //Скрытие сообщения с помощью кнопку Escape
 function onDocumentKeydown(evt) {
   if (evt.key === 'Escape') {
     evt.preventDefault();
-    hideMessage();
+    onMessageHide();
   }
 
-  hideMessage();
+  onMessageHide();
 }
 
 //Функция для показа сообщения
@@ -34,7 +34,7 @@ const showMessage = (messageElement, closeButtonClass) => {
   body.append(messageElement);
   document.addEventListener('keydown', onDocumentKeydown);
   body.addEventListener('click', onBodyClick);
-  messageElement.querySelector(closeButtonClass).addEventListener('click', hideMessage);
+  messageElement.querySelector(closeButtonClass).addEventListener('click', onMessageHide);
 };
 
 //Функция для показа успешного сообщения

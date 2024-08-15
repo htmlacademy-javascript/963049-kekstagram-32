@@ -19,16 +19,16 @@ const scalePicture = (value) => {
 };
 
 //Функция для кнопки уменьшения изображения
-const onScaleClickSmaller = () => {
+const onScaleSmallerClick = () => {
   scalePicture(Math.max(parseInt(scaleInputValue.value, 10) - scale.STEP, scale.MIN));
 };
 
 //Функция для кнопки увеличения изображения
-const onScaleClickBigger = () => {
+const onScaleBiggerClick = () => {
   scalePicture(Math.min(parseInt(scaleInputValue.value, 10) + scale.STEP, scale.MAX));
 };
 
 //Функция для сброса до первоначальных(дефолтных) данных
 const resetScale = () => scalePicture(scale.DEFAULT);
 
-export { resetScale, buttonScaleSmaller, onScaleClickSmaller, buttonScaleBigger, onScaleClickBigger };
+export { resetScale, buttonScaleSmaller, onScaleSmallerClick, buttonScaleBigger, onScaleBiggerClick };

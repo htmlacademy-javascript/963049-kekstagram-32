@@ -1,6 +1,23 @@
-import { buttonScaleSmaller, onScaleClickSmaller, buttonScaleBigger, onScaleClickBigger } from './scale.js';
+import { buttonScaleSmaller, onScaleSmallerClick, buttonScaleBigger, onScaleBiggerClick } from './scale.js';
 import {resetScale} from './scale.js';
 import {initEffectPicture, resetEffects, sliderElement} from './effects.js';
+
+const VALID_SYMBOLS = /^#[A-ZА-ЯЁa-zа-яё0-9]{1,19}$/i;
+const MAX_HASHTAG_COUNT = 5;
+const MAX_AMOUNT_TEXT_DESCRIPTION = 140;
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+
+const ErrorText = {
+  INVALID_COUNT: `Максимум ${MAX_HASHTAG_COUNT} хэштэгов`,
+  INVALID_PATTERN: 'Неправильный хэштэг',
+  NOT_UNIQUE: 'Хэштэг не уникальный',
+  INVALID_COMMENT: `Длина комментария не может составлять больше ${MAX_AMOUNT_TEXT_DESCRIPTION} символов`
+};
+
+const SubmitButtonText = {
+  IDLE: 'Опубликовать',
+  SUBMITTING: 'Отправляю...',
+};
 
 const body = document.querySelector('body');
 const postForm = document.querySelector('.img-upload__form');
@@ -14,28 +31,11 @@ const submitButton = postForm.querySelector('.img-upload__submit');
 const previewPicture = postForm.querySelector('.img-upload__preview img');
 const effectsPicture = postForm.querySelectorAll('.effects__preview');
 
-const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
-const MAX_HASHTAG_COUNT = 5;
-const MAX_AMOUNT_TEXT_DESCRIPTION = 140;
-const FILE_TYPES = ['jpg', 'jpeg', 'png'];
-
-const errorText = {
-  INVALID_COUNT: `Максимум ${MAX_HASHTAG_COUNT} хэштэгов`,
-  INVALID_PATTERN: 'Неправильный хэштэг',
-  NOT_UNIQUE: 'Хэштэг не уникальный',
-  INVALID_COMMENT: `Длина комментария не может составлять больше ${MAX_AMOUNT_TEXT_DESCRIPTION} символов`
-};
-
 const pristine = new Pristine(postForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper--error',
 });
-
-const SubmitButtonText = {
-  IDLE: 'Опубликовать',
-  SUBMITTING: 'Отправляю...',
-};
 
 //Условия для загрузки файла изображения
 const isValidType = (file) => {
@@ -86,7 +86,7 @@ const setPostsFormSubmit = (callback) => {
 pristine.addValidator(
   descriptionField,
   descriptionFieldCount,
-  errorText.INVALID_COMMENT,
+  ErrorText.INVALID_COMMENT,
   4,
   true
 );
@@ -96,7 +96,7 @@ pristine.addValidator(
 pristine.addValidator(
   hashtagField,
   hasUniqueTags,
-  errorText.NOT_UNIQUE,
+  ErrorText.NOT_UNIQUE,
   3,
   true
 );
@@ -104,7 +104,7 @@ pristine.addValidator(
 pristine.addValidator(
   hashtagField,
   hasValidCount,
-  errorText.INVALID_COUNT,
+  ErrorText.INVALID_COUNT,
   2,
   true
 );
@@ -112,7 +112,7 @@ pristine.addValidator(
 pristine.addValidator(
   hashtagField,
   hasValidTags,
-  errorText.INVALID_PATTERN,
+  ErrorText.INVALID_PATTERN,
   1,
   true
 );
@@ -121,8 +121,8 @@ pristine.addValidator(
 const showPostForm = () => {
   overlay.classList.remove('hidden');
   body.classList.add('modal-open');
-  buttonScaleSmaller.addEventListener('click', onScaleClickSmaller);
-  buttonScaleBigger.addEventListener('click', onScaleClickBigger);
+  buttonScaleSmaller.addEventListener('click', onScaleSmallerClick);
+  buttonScaleBigger.addEventListener('click', onScaleBiggerClick);
   initEffectPicture();
   document.addEventListener('keydown', onPostFormKeyDown);
 };
@@ -166,14 +166,15 @@ const isErrorMessageShown = () => {
 };
 
 //Функция закрытия модального окна по клавише Escape
-function onPostFormKeyDown(e) {
-  if(e.key === 'Escape' && !isErrorMessageShown()) {
-    e.preventDefault();
+function onPostFormKeyDown(evt) {
+  if(evt.key === 'Escape' && !isErrorMessageShown()) {
+    evt.preventDefault();
     hidePostForm();
   }
 }
 
 //Отмена обработчика Escape при фокусе в полях ввода данных
+
 hashtagField.addEventListener('keydown', (evt) => {
   evt.stopPropagation();
 });

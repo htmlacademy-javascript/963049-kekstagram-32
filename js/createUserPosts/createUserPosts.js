@@ -17,11 +17,11 @@ const createUserPost = ({id, url, description, likes, comments}) => {
 };
 
 //Генерация постов с изображениями
-const renderUserPosts = (receivedUserPost, userPostsList) => {
+const renderUserPosts = (receivedUserPosts, userPostsList) => {
   userPostsList.querySelectorAll('.picture').forEach((element) => element.remove());
   const postsFragment = document.createDocumentFragment();
 
-  receivedUserPost.forEach((element) => {
+  receivedUserPosts.forEach((element) => {
     const formedUserPost = createUserPost(element);
     postsFragment.appendChild(formedUserPost);
   });
