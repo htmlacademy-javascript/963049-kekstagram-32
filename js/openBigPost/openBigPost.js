@@ -11,7 +11,7 @@ const bigPicture = document.querySelector('.big-picture');
 const bigPictureCancel = document.querySelector('.big-picture__cancel');
 const body = document.querySelector('body');
 
-//Создание списка комментариев под постом с изображением
+//Создание списка комментариев под постом
 
 const socialCommentList = bigPicture.querySelector('.social__comments');
 const socialCommentItem = socialCommentList.querySelector('.social__comment');
